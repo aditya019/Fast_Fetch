@@ -1,0 +1,34 @@
+<!-- This webpage does slower fetching of data -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slow index</title>
+</head>
+<body>
+    <ol id="data"></ol>
+    <script>
+        const xhr = new XMLHttpRequest();
+        // All the data is collected and rendered at once making it slower
+        xhr.open("GET", "http://localhost:8000/data", true);
+        xhr.onload = () => {
+            if(xhr.status == 200) {
+                    console.log(xhr.response);
+                    let dataList = JSON.parse(xhr.response);
+                    dataList.forEach(i => {
+                        const listElement = document.createElement('li');
+                        listElement.innerHTML = `${i.name} - ${i.company}`;
+                        document.getElementById("data").appendChild(listElement);
+                    });
+                } else {
+                    console.log(xhr.status);
+                }
+        }
+        xhr.send();
+    </script>
+</body>
+</html>

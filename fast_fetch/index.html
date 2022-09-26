@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fast Index</title>
+</head>
+<body>
+    <ol id="data"></ol>
+    <script>
+        const getData = () => {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", "http://localhost:3000/data", true);
+            xhr.onload = () => {
+                if(xhr.status == 200) {
+                    // console.log(xhr.response);
+                    let dataList = JSON.parse(xhr.response);
+                    dataList.forEach(i => {
+                        const listElement = document.createElement('li');
+                        listElement.innerHTML = `${i.name} - ${i.company}`;
+                        document.getElementById("data").appendChild(listElement);
+                    });
+                } else {
+                    console.log(xhr.status);
+                }
+            };
+            xhr.send();
+        }
+        getData();
+        // data is requested at an interval of 500 milliseconds
+        setInterval(getData, 500);
+
+    </script>
+</body>
+</html>
